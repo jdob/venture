@@ -31,8 +31,8 @@ class VentureEngine:
     def initialize(self):
         self.context.initialize()
 
-        # self.map = Tomb(7, 2)
-        self.map = SloppyDungeon(6, 10, 7)
+        self.map = Tomb(5, 4)
+        # self.map = SloppyDungeon(6, 10, 7)
         self.map.generate()
 
         self.player = Player()
