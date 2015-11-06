@@ -52,7 +52,7 @@ class Map(dict):
         for x in range(min(x1, x2), max(x1, x2) + 1):
             self._map[x][y].unblock()
 
-    def create_vertical_tunnel(self, x, y1, y2):
+    def create_vertical_tunnel(self, y1, y2, x):
         for y in range(min(y1, y2), max(y1, y2) + 1):
             self._map[x][y].unblock()
 

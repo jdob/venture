@@ -12,6 +12,7 @@
 
 from venture.engine import context
 from venture.lib import libtcodpy as cod
+from venture.maps.sloppy import SloppyDungeon
 from venture.maps.tomb import Tomb
 from venture.model.base import Player
 
@@ -30,7 +31,8 @@ class VentureEngine:
     def initialize(self):
         self.context.initialize()
 
-        self.map = Tomb(7, 2)
+        # self.map = Tomb(7, 2)
+        self.map = SloppyDungeon(6, 10, 7)
         self.map.generate()
 
         self.player = Player()

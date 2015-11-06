@@ -72,7 +72,7 @@ class Tomb(Map):
             x = (r.x1 + r.x2) / 2
             y1 = r.y2  # start at the bottom of the room
             y2 = y1 + self.corridor_length
-            self.create_vertical_tunnel(x, y1, y2)
+            self.create_vertical_tunnel(y1, y2, x)
 
         # Horizontal Corridors
         for i in range(self.grid_size * (self.grid_size - 1)):
