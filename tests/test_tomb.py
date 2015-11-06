@@ -13,7 +13,7 @@
 import unittest
 
 from venture.engine.context import get_context
-from venture.model import map
+from venture.maps.tomb import Tomb
 
 
 class TombTests(unittest.TestCase):
@@ -49,5 +49,5 @@ class TombTests(unittest.TestCase):
         corridor_size = corridor_size
 
         # Test
-        t = map.Tomb(grid_size, corridor_size)
+        t = Tomb(grid_size, corridor_size)
         return t._calculate_room_size()

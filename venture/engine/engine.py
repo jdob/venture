@@ -13,7 +13,7 @@
 from venture.engine import context
 import venture.lib.libtcodpy as cod
 from venture.model.base import Player
-from venture.model import map
+from venture.maps.tomb import Tomb
 
 class VentureEngine:
 
@@ -29,7 +29,7 @@ class VentureEngine:
     def initialize(self):
         self.context.initialize()
 
-        self.map = map.Tomb(7, 2)
+        self.map = Tomb(7, 2)
         self.map.generate()
 
         self.player = Player()
