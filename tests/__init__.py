@@ -10,23 +10,3 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.lib import libtcodpy as cod
-
-
-class VentureConfig:
-
-    def __init__(self):
-
-        self.font_path = 'fonts/arial12x12.png'
-        self.title = 'Venture Society'
-
-        self.fps_limit = 20
-
-        self.screen_width = 80
-        self.screen_height = 60
-
-        self.map_width = 80
-        self.map_height = 55
-
-        self.color_dark_wall = cod.Color(0, 0, 100)
-        self.color_dark_ground = cod.Color(50, 50, 150)

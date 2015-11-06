@@ -13,7 +13,7 @@
 from venture.engine import context
 import venture.lib.libtcodpy as cod
 from venture.model.base import Player
-from venture.model.map import Map
+from venture.model import map
 
 class VentureEngine:
 
@@ -29,11 +29,8 @@ class VentureEngine:
     def initialize(self):
         self.context.initialize()
 
-        self.map = Map()
+        self.map = map.Tomb(7, 2)
         self.map.generate()
-
-        # TODO: Tie in real generation code
-        self.map.xxx_sample_1()
 
         self.player = Player()
         self.player.x, self.player.y = self.map.player_start_location()
