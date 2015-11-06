@@ -20,9 +20,6 @@ class VentureContext:
         self.config = VentureConfig()
         self.console = VentureConsole(self.config)
 
-    def initialize(self):
-        self.console.initialize()
-
 
 __CONTEXT = VentureContext()
 

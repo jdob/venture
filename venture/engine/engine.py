@@ -12,9 +12,12 @@
 
 from venture.engine import context
 from venture.lib import libtcodpy as cod
-from venture.maps.sloppy import SloppyDungeon
 from venture.maps.tomb import Tomb
 from venture.model.base import Player
+
+# Notifications from handle_keys
+KEY_EXIT = 'exit'
+KEY_FOV_RECOMPUTE = 'fov_recompute'
 
 
 class VentureEngine:
@@ -29,11 +32,12 @@ class VentureEngine:
         self.player = None
 
     def initialize(self):
-        self.context.initialize()
 
         self.map = Tomb(5, 4)
-        # self.map = SloppyDungeon(6, 10, 7)
         self.map.generate()
+
+        self.console.initialize()
+        self.console.initialize_fov(self.map)
 
         self.player = Player()
         self.player.x, self.player.y = self.map.player_start_location()
@@ -41,18 +45,23 @@ class VentureEngine:
 
     def run(self):
 
+        fov_recompute = True
         while not cod.console_is_window_closed():
 
-            self.draw_all()
+            self.draw_all(fov_recompute)
             self.context.console.blit_map()
             self.context.console.flush()
 
             for o in self.objects:
                 o.clear()
 
-            exit_triggered = self.handle_keys()
-            if exit_triggered:
+            fov_recompute = False
+            key_result = self.handle_keys()
+
+            if key_result == KEY_EXIT:
                 break
+            elif key_result == KEY_FOV_RECOMPUTE:
+                fov_recompute = True
 
     def handle_keys(self):
 
@@ -65,7 +74,7 @@ class VentureEngine:
      
         elif key.vk == cod.KEY_ESCAPE:
             # Exit Game
-            return True
+            return KEY_EXIT
      
         # Movement
         dx = dy = None
@@ -90,20 +99,34 @@ class VentureEngine:
 
             if self._allow_move(new_x, new_y):
                 self.player.move(dx, dy)
+                return KEY_FOV_RECOMPUTE
 
-    def draw_all(self):
+    def draw_all(self, fov_recompute):
+
+        # Draw the map
+        if fov_recompute:
+            self.console.compute_fov(self.player.x, self.player.y)
+
+            for y in range(self.config.map_height):
+                for x in range(self.config.map_width):
+                    visible = self.console.in_fov(x, y)
+                    is_wall = self.map[x][y].block_sight
+                    if not visible:
+                        #it's out of the player's FOV
+                        if is_wall:
+                            self.console.set_map_bg_color(self.config.color_dark_wall, x, y)
+                        else:
+                            self.console.set_map_bg_color(self.config.color_dark_ground, x, y)
+                    else:
+                        #it's visible
+                        if is_wall:
+                            self.console.set_map_bg_color(self.config.color_light_wall, x, y)
+                        else:
+                            self.console.set_map_bg_color(self.config.color_light_ground, x, y)
+
         # Draw all objects
         for o in self.objects:
             o.draw()
-
-        # Draw the map
-        for y in range(self.config.map_height):
-            for x in range(self.config.map_width):
-                is_wall = self.map[x][y].block_sight
-                if is_wall:
-                    self.console.set_map_bg_color(self.config.color_dark_wall, x, y)
-                else:
-                    self.console.set_map_bg_color(self.config.color_dark_ground, x, y)
 
     def _allow_move(self, new_x, new_y):
         return ((0 <= new_x < self.config.map_width) and

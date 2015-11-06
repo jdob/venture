@@ -17,6 +17,7 @@ class VentureConfig:
 
     def __init__(self):
 
+        # Screen & Map
         self.font_path = 'fonts/arial12x12.png'
         self.title = 'Venture Society'
 
@@ -28,5 +29,16 @@ class VentureConfig:
         self.map_width = 80
         self.map_height = 55
 
+        self.fov_algorithm = 0
+        self.fov_light_walls = True
+
+        # Colors
         self.color_dark_wall = cod.Color(0, 0, 100)
+        self.color_light_wall = cod.Color(130, 110, 50)
         self.color_dark_ground = cod.Color(50, 50, 150)
+        self.color_light_ground = cod.Color(200, 180, 50)
+
+        # Player
+        self.torch_radius = 10
+
+
