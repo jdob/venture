@@ -13,6 +13,7 @@
 from venture.engine.config import VentureConfig
 from venture.engine.console import VentureConsole
 
+
 class VentureContext:
 
     def __init__(self):

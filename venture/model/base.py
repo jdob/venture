@@ -13,6 +13,7 @@
 from venture.engine.context import get_context
 from venture.lib import libtcodpy as cod
 
+
 class Object:
 
     def __init__(self, avatar=None, color=None):

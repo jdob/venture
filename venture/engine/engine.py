@@ -11,9 +11,10 @@
 # under the License.
 
 from venture.engine import context
-import venture.lib.libtcodpy as cod
-from venture.model.base import Player
+from venture.lib import libtcodpy as cod
 from venture.maps.tomb import Tomb
+from venture.model.base import Player
+
 
 class VentureEngine:
 

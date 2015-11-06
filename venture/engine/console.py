@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import venture.lib.libtcodpy as cod
+from venture.lib import libtcodpy as cod
 
 
 class VentureConsole:
