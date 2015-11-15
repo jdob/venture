@@ -13,7 +13,7 @@
 import random
 
 from venture.engine.context import get_context
-from venture.maps.base import (Map, Room)
+from venture.model.map import Map, Room
 
 
 class SloppyDungeon(Map):

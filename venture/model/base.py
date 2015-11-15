@@ -11,7 +11,6 @@
 # under the License.
 
 from venture.engine.context import get_context
-from venture.lib import libtcodpy as cod
 
 
 class Object:
@@ -46,13 +45,3 @@ class Object:
 
     def clear(self):
         get_context().console.clear_map_char(self.x, self.y)
-
-
-class Player(Object):
-
-    AVATAR = '@'
-    COLOR = cod.light_cyan
-
-    def __init__(self):
-        Object.__init__(self, avatar=Player.AVATAR, color=Player.COLOR)
-

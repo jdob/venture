@@ -13,7 +13,7 @@
 from venture.engine import context
 from venture.lib import libtcodpy as cod
 from venture.maps.tomb import Tomb
-from venture.model.base import Player
+from venture.model.player import Player
 
 # Notifications from handle_keys
 KEY_EXIT = 'exit'
