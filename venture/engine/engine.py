@@ -102,31 +102,40 @@ class VentureEngine:
                 return KEY_FOV_RECOMPUTE
 
     def draw_all(self, fov_recompute):
+        self._draw_map(fov_recompute)
+        self._draw_objects()
 
-        # Draw the map
-        if fov_recompute:
-            self.console.compute_fov(self.player.x, self.player.y)
+    def _draw_map(self, fov_recompute):
+        if not fov_recompute:
+            return
 
-            for y in range(self.config.map_height):
-                for x in range(self.config.map_width):
-                    visible = self.console.in_fov(x, y)
-                    is_wall = self.map[x][y].block_sight
-                    if not visible:
-                        #it's out of the player's FOV
+        self.console.compute_fov(self.player.x, self.player.y)
+
+        for y in range(self.config.map_height):
+            for x in range(self.config.map_width):
+                in_fov = self.console.in_fov(x, y)
+                is_wall = self.map[x][y].block_sight
+
+                if not in_fov:
+                    # If not in the current FOV, only draw if it's
+                    # been explored
+                    if self.map[x][y].explored or not self.config.use_fog:
                         if is_wall:
                             self.console.set_map_bg_color(self.config.color_dark_wall, x, y)
                         else:
                             self.console.set_map_bg_color(self.config.color_dark_ground, x, y)
-                    else:
-                        #it's visible
-                        if is_wall:
-                            self.console.set_map_bg_color(self.config.color_light_wall, x, y)
-                        else:
-                            self.console.set_map_bg_color(self.config.color_light_ground, x, y)
+                else:
+                    self.map[x][y].explored = True
 
-        # Draw all objects
+                    if is_wall:
+                        self.console.set_map_bg_color(self.config.color_light_wall, x, y)
+                    else:
+                        self.console.set_map_bg_color(self.config.color_light_ground, x, y)
+
+    def _draw_objects(self):
         for o in self.objects:
             o.draw()
+
 
     def _allow_move(self, new_x, new_y):
         return ((0 <= new_x < self.config.map_width) and

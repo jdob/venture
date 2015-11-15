@@ -84,6 +84,8 @@ class Tile:
             block_sight = block_move
         self.block_sight = block_sight
 
+        self.explored = False
+
     def block(self):
         self.block_move = True
         self.block_sight = True

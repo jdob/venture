@@ -41,4 +41,7 @@ class VentureConfig:
         # Player
         self.torch_radius = 10
 
+        # Debug
+        self.use_fog = True
+
 
