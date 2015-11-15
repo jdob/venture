@@ -39,6 +39,8 @@ class VentureConfig:
         self.color_light_ground = cod.Color(200, 180, 50)
 
         # Player
+        self.player_avatar = '@'
+        self.player_color = cod.light_cyan
         self.torch_radius = 10
 
         # Debug
