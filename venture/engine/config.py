@@ -39,6 +39,9 @@ class VentureConfig:
         self.ground_color_light = cod.Color(142, 142, 142)
         self.map_use_fog = True
 
+        # Objects
+        self.object_use_fov = True
+
         # Player
         self.player_avatar = '@'
         self.player_color = cod.Color(49, 192, 214)

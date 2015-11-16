@@ -141,7 +141,7 @@ class VentureEngine:
     def _draw_objects(self):
         for o in self.objects:
             in_fov = self.console.in_fov(o.x, o.y)
-            if in_fov:
+            if in_fov or not self.config.object_use_fov:
                 o.draw()
 
     def _allow_move(self, new_x, new_y):
