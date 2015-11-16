@@ -33,18 +33,18 @@ class VentureConfig:
         self.fov_light_walls = True
 
         # Map Colors
-        self.wall_color_dark = cod.Color(0, 0, 100)
-        self.wall_color_light = cod.Color(130, 110, 50)
-        self.ground_color_dark = cod.Color(50, 50, 150)
-        self.ground_color_light = cod.Color(200, 180, 50)
+        self.wall_color_dark = cod.Color(164, 164, 164)
+        self.wall_color_light = cod.Color(176, 176, 176)
+        self.ground_color_dark = cod.Color(186, 186, 186)
+        self.ground_color_light = cod.Color(196, 196, 196)
 
         # Player
         self.player_avatar = '@'
-        self.player_color = cod.light_cyan
+        self.player_color = cod.Color(43, 150, 186)
         self.player_torch_radius = 10
 
         # Mob
-        self.mob_default_color = cod.light_red
+        self.mob_default_color = cod.Color(186, 62, 43)
         self.mob_max_per_room = 3
 
         # Debug
