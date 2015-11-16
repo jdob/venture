@@ -36,7 +36,7 @@ class VentureConfig:
         self.wall_color_dark = cod.Color(104, 104, 104)
         self.wall_color_light = cod.Color(116, 116, 116)
         self.ground_color_dark = cod.Color(126, 126, 126)
-        self.ground_color_light = cod.Color(136, 136, 136)
+        self.ground_color_light = cod.Color(142, 142, 142)
         self.map_use_fog = True
 
         # Player
