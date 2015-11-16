@@ -124,7 +124,7 @@ class VentureEngine:
                 if not in_fov:
                     # If not in the current FOV, only draw if it's
                     # been explored
-                    if self.map[x][y].explored or not self.config.use_fog:
+                    if self.map[x][y].explored or not self.config.map_use_fog:
                         if is_wall:
                             self.console.set_map_bg_color(self.config.wall_color_dark, x, y)
                         else:

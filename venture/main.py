@@ -10,13 +10,28 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import argparse
+
 from venture.engine.engine import VentureEngine
+from venture.engine.context import get_context
 
 
 def main():
+    _parse_args()
+
     engine = VentureEngine()
     engine.initialize()
     engine.run()
+
+
+def _parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--no-fog', dest='no_fog', action='store_true')
+
+    args = parser.parse_args()
+    args = vars(args)
+
+    get_context().config.use_fog = not args['no_fog']
 
 
 if __name__ == '__main__':
