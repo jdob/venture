@@ -11,7 +11,6 @@
 # under the License.
 
 from venture.engine.engine import VentureEngine
-from venture.engine.config import VentureConfig
 
 
 def main():
