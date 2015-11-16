@@ -121,16 +121,16 @@ class VentureEngine:
                     # been explored
                     if self.map[x][y].explored or not self.config.use_fog:
                         if is_wall:
-                            self.console.set_map_bg_color(self.config.color_dark_wall, x, y)
+                            self.console.set_map_bg_color(self.config.wall_color_dark, x, y)
                         else:
-                            self.console.set_map_bg_color(self.config.color_dark_ground, x, y)
+                            self.console.set_map_bg_color(self.config.ground_color_dark, x, y)
                 else:
                     self.map[x][y].explored = True
 
                     if is_wall:
-                        self.console.set_map_bg_color(self.config.color_light_wall, x, y)
+                        self.console.set_map_bg_color(self.config.wall_color_light, x, y)
                     else:
-                        self.console.set_map_bg_color(self.config.color_light_ground, x, y)
+                        self.console.set_map_bg_color(self.config.ground_color_light, x, y)
 
     def _draw_objects(self):
         for o in self.objects:

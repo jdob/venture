@@ -64,7 +64,7 @@ class VentureConsole:
 
     def compute_fov(self, x, y):
         cod.map_compute_fov(self.fov_map, x, y,
-                            self.config.torch_radius,
+                            self.config.player_torch_radius,
                             self.config.fov_light_walls,
                             self.config.fov_algorithm)
 
