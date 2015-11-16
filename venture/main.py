@@ -16,8 +16,22 @@ from venture.engine.engine import VentureEngine
 from venture.engine.context import get_context
 
 
+ENABLE_DEBUG_OPTIONS = True
+
+
 def main():
-    _parse_args()
+    if ENABLE_DEBUG_OPTIONS:
+        _parse_args()
+
+    engine = VentureEngine()
+    engine.initialize()
+    engine.run()
+
+
+def gen_test():
+    config = get_context().config
+    config.map_use_fog = False
+    config.object_use_fov = False
 
     engine = VentureEngine()
     engine.initialize()

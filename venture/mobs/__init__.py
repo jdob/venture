@@ -10,12 +10,3 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.model.base import Object
-
-
-class Mob(Object):
-
-    def __init__(self, name, avatar, color):
-        Object.__init__(self, name=name,
-                        avatar=avatar,
-                        color=color)

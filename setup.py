@@ -7,7 +7,8 @@ setup(name='Venture Society',
       packages=['venture'],
       entry_points={
           'console_scripts': [
-              'vs = venture.main:main'
+              'vs = venture.main:main',
+              'vs-gen = venture.main:gen_test'
           ]
       },
      )
