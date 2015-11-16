@@ -10,3 +10,20 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+from venture.engine.context import get_context
+from venture.model.base import Object
+
+
+class Mob(Object):
+
+    def __init__(self, avatar, color):
+        Object.__init__(self, avatar, color)
+
+
+class Zombie(Mob):
+
+    def __init__(self):
+        config = get_context().config
+        Object.__init__(self,
+                        avatar='z',
+                        color=config.mob_default_color)
