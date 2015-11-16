@@ -15,9 +15,9 @@ from venture.engine.context import get_context
 
 class Object:
 
-    def __init__(self, avatar=None, color=None):
-        self.x = 0
-        self.y = 0
+    def __init__(self, x=0, y=0, avatar=None, color=None):
+        self.x = x
+        self.y = y
         self.movable = True
 
         self.avatar = avatar

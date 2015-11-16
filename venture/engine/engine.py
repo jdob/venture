@@ -43,6 +43,11 @@ class VentureEngine:
         self.player.x, self.player.y = self.map.player_start_location()
         self.objects.append(self.player)
 
+        # Mob sample generation
+        from venture.model.mobs import place_sample_mobs
+        added_mobs = place_sample_mobs(self.map.rooms)
+        self.objects.extend(added_mobs)
+
     def run(self):
 
         fov_recompute = True

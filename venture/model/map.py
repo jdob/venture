@@ -18,10 +18,15 @@ class Map(dict):
     def __init__(self, iterable=None, **kwargs):
         super(Map, self).__init__(iterable=iterable, **kwargs)
         self._map = None
+        self._rooms = []
 
     def __getitem__(self, key):
         # shortcut to access tiles directly
         return self._map[key]
+
+    @property
+    def rooms(self):
+        return list(self._rooms)
 
     def generate(self):
         context = get_context()
@@ -42,8 +47,8 @@ class Map(dict):
                 if not self._map[x][y].block_move:
                     return x, y
 
-
     def create_room(self, room):
+        self._rooms.append(room)
         for x in range(room.x1, room.x2):
             for y in range(room.y1, room.y2):
                 self._map[x][y].unblock()

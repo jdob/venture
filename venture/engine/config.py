@@ -45,8 +45,9 @@ class VentureConfig:
 
         # Mob
         self.mob_default_color = cod.light_red
+        self.mob_max_per_room = 3
 
         # Debug
-        self.use_fog = True
+        self.use_fog = False
 
 
