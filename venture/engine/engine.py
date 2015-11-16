@@ -13,6 +13,7 @@
 from venture.engine import context
 from venture.lib import libtcodpy as cod
 from venture.maps.tomb import Tomb
+from venture.model.base import Objects
 from venture.model.player import Player
 
 # Notifications from handle_keys
@@ -27,7 +28,7 @@ class VentureEngine:
         self.config = self.context.config
         self.console = self.context.console
 
-        self.objects = []
+        self.objects = Objects()
         self.map = None
         self.player = None
 
@@ -141,8 +142,9 @@ class VentureEngine:
         for o in self.objects:
             o.draw()
 
-
     def _allow_move(self, new_x, new_y):
         return ((0 <= new_x < self.config.map_width) and
                 (0 <= new_y < self.config.map_height) and
-                not self.map[new_x][new_y].block_move)
+                not self.map[new_x][new_y].block_move and
+                not self.objects.is_blocked(new_x, new_y)
+               )

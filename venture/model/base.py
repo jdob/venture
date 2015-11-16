@@ -13,12 +13,35 @@
 from venture.engine.context import get_context
 
 
+class Objects(list):
+
+    def at(self, x, y, blocks_movement=False):
+        found = [o for o in self if o.x == x and o.y == y]
+        if blocks_movement:
+            found = [o for o in found if o.blocks_movement]
+
+        if len(found) > 1:
+            raise Exception('Multiple objects [%s] found at (%s, %s)'
+                            % (len(found), x, y))
+        elif len(found) == 1:
+            return found[0]
+        else:
+            return None
+
+    def is_blocked(self, x, y):
+        return self.at(x, y, blocks_movement=True) is not None
+
+
 class Object:
 
-    def __init__(self, x=0, y=0, avatar=None, color=None):
+    def __init__(self, name=None, x=0, y=0,
+                 avatar=None, color=None):
+        self.name = name
+
         self.x = x
         self.y = y
         self.movable = True
+        self.blocks_movement = True
 
         self.avatar = avatar
         self.color = color
