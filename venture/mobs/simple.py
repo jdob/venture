@@ -13,6 +13,7 @@
 import random
 
 from venture.engine.context import get_context
+from venture.mobs import data
 from venture.model.mobs import Mob
 
 
@@ -22,19 +23,7 @@ class SimpleMobGenerator:
     """
 
     def add_mobs(self, rooms):
-        # Purely for testing purposes (pretty obvious from the name)
         config = get_context().config
-
-        orc = {
-            'name': 'Orc',
-            'avatar': 'o',
-            'color': config.mob_default_color
-        }
-        goblin = {
-            'name': 'Goblin',
-            'avatar': 'g',
-            'color': config.mob_default_color
-        }
 
         added_mobs = []
         for room in rooms:
@@ -45,11 +34,8 @@ class SimpleMobGenerator:
                 x = random.randint(room.x1, room.x2 - 1)
                 y = random.randint(room.y1, room.y2 - 1)
 
-                mob_type = random.randint(1, 100)
-                if mob_type <= 80:
-                    mob = Mob(**goblin)
-                else:
-                    mob = Mob(**orc)
+                mob_type = data.random_mob()
+                mob = Mob(**mob_type)
 
                 mob.x = x
                 mob.y = y

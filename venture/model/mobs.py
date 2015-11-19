@@ -15,7 +15,7 @@ from venture.model.base import Object
 
 class Mob(Object):
 
-    def __init__(self, name, avatar, color):
+    def __init__(self, name, avatar, color, **kwargs):
         Object.__init__(self, name=name,
                         avatar=avatar,
                         color=color)

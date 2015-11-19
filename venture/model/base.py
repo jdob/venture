@@ -35,13 +35,14 @@ class Objects(list):
 class Object:
 
     def __init__(self, name=None, x=0, y=0,
-                 avatar=None, color=None):
+                 avatar=None, color=None,
+                 movable=True, blocks_movement=True):
         self.name = name
 
         self.x = x
         self.y = y
-        self.movable = True
-        self.blocks_movement = True
+        self.movable = movable
+        self.blocks_movement = blocks_movement
 
         self.avatar = avatar
         self.color = color
