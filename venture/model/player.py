@@ -20,4 +20,7 @@ class Player(Object):
         config = get_context().config
         Object.__init__(self,
                         avatar=config.player_avatar,
-                        color=config.player_color)
+                        color=config.player_color,
+                        max_hp=config.player_max_hp,
+                        offense=config.player_offense,
+                        defense=config.player_defense)

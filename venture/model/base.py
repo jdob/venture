@@ -10,6 +10,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import sys
+
 from venture.engine.context import get_context
 
 
@@ -36,7 +38,10 @@ class Object:
 
     def __init__(self, name=None, x=0, y=0,
                  avatar=None, color=None,
-                 movable=True, blocks_movement=True):
+                 movable=True, blocks_movement=True,
+                 max_hp=sys.maxint, hp=None,
+                 offense=0, defense=0,
+                 **kwargs):
         self.name = name
 
         self.x = x
@@ -46,6 +51,11 @@ class Object:
 
         self.avatar = avatar
         self.color = color
+
+        self.max_hp = max_hp
+        self.hp = hp or max_hp  # if unspecified, default to full life
+        self.offense = offense
+        self.defense = defense
 
     def calculate_destination(self, dx, dy):
         new_x = self.x

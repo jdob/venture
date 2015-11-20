@@ -46,6 +46,9 @@ class VentureConfig:
         self.player_avatar = '@'
         self.player_color = cod.Color(49, 192, 214)
         self.player_torch_radius = 10
+        self.player_max_hp = 20
+        self.player_offense = 5
+        self.player_defense = 5
 
         # Mob
         self.mob_default_color = cod.Color(250, 120, 120)

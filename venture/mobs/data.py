@@ -20,6 +20,9 @@ _TEMPLATE = {
     'avatar': 'X',
     'color': get_context().config.mob_default_color,
     'weight': 5,
+    'max_hp': 10,
+    'offense': 1,
+    'defense': 1,
 }
 
 def _define(delta):
@@ -31,13 +34,18 @@ def _define(delta):
 ORC = _define({
     'name': 'Orc',
     'avatar': 'o',
-    'weight': 2
+    'weight': 2,
+    'max_hp': 15,
+    'offense': 3,
+    'defense': 5,
 })
 
 
 GOBLIN = _define({
     'name': 'Goblin',
     'avatar': 'g',
+    'offense': 2,
+    'defense': 2,
 })
 
 
@@ -58,5 +66,10 @@ for m in ALL:
 
 def random_mob():
     index = random.randint(0, len(WEIGHTED_ALL) - 1)
-    mob = WEIGHTED_ALL[index]
+    mob = dict(WEIGHTED_ALL[index])
+
+    # This may not belong here and instead in the generator, but this is
+    # ok for now. Eventually I need to tweak the current HP as well to be
+    # proportional to the max_hp (and maybe defense).
+    mob['hp'] = mob['max_hp'] - random.randint(0, 2)
     return mob
