@@ -17,10 +17,6 @@ from venture.mobs.simple import SimpleMobGenerator
 from venture.model.base import Objects
 from venture.model.player import Player
 
-# Notifications from handle_keys
-KEY_EXIT = 'exit'
-KEY_FOV_RECOMPUTE = 'fov_recompute'
-
 
 class VentureEngine:
 
@@ -53,35 +49,44 @@ class VentureEngine:
     def run(self):
 
         fov_recompute = True
-        while not cod.console_is_window_closed():
+        while self._is_running():
 
-            self.draw_all(fov_recompute)
+            self._draw_all(fov_recompute)
             self.context.console.blit_map()
             self.context.console.flush()
 
             for o in self.objects:
                 o.clear()
 
+            # Player Turn
             fov_recompute = False
-            key_result = self.handle_keys()
+            key_result = self._handle_key()
 
-            if key_result == KEY_EXIT:
+            if key_result.end_game:
                 break
-            elif key_result == KEY_FOV_RECOMPUTE:
+            elif key_result.fov_recompute:
                 fov_recompute = True
+            elif key_result.bumped_object is not None:
+                o = key_result.bumped_object
+                print('Bumped into %s at (%s, %s)' % (o.name, o.x, o.y))
 
-    def handle_keys(self):
+    @staticmethod
+    def _is_running():
+        return not cod.console_is_window_closed()
+
+    def _handle_key(self):
 
         # Configure for turn-based
         key = cod.console_wait_for_keypress(True)
      
+        # Alt+Enter: toggle fullscreen
         if key.vk == cod.KEY_ENTER and key.lalt:
-            # Alt+Enter: toggle fullscreen
             cod.console_set_fullscreen(not cod.console_is_fullscreen())
-     
+            return KeyResult()
+
+        # Exit Game
         elif key.vk == cod.KEY_ESCAPE:
-            # Exit Game
-            return KEY_EXIT
+            return KeyResult(end_game=True)
      
         # Movement
         dx = dy = None
@@ -102,13 +107,48 @@ class VentureEngine:
             dy = 0
 
         if dx is not None:
-            new_x, new_y = self.player.calculate_destination(dx, dy)
+            return self._handle_player_move_or_attack(dx, dy)
 
-            if self._allow_move(new_x, new_y):
-                self.player.move(dx, dy)
-                return KEY_FOV_RECOMPUTE
+        # Unbound key pressed
+        return KeyResult()
 
-    def draw_all(self, fov_recompute):
+    def _handle_player_move_or_attack(self, dx, dy):
+        """
+        Handles a user input to attempt to move the player. This method
+        will determine if the change to coordinates are a valid movement
+        or if an attack takes place.
+
+        :param dx: attempted change in the x plane
+        :type  dx: int
+        :param dy: attempted change in the y plane
+        :type  dy: int
+        :return: result describing the effects of the change
+        :rtype:  KeyResult
+        """
+        new_x, new_y = self.player.calculate_destination(dx, dy)
+
+        # First see if there is a mob at the destination
+        mob = self.objects.at(new_x, new_y)
+        if mob is not None:
+            return KeyResult(player_turn_finished=True, bumped_object=mob)
+
+        # If the player didnt' bump into a mob, see if the move is valid
+        # with respect to the map
+        if self._allow_move(new_x, new_y):
+            self.player.move(dx, dy)
+            return KeyResult(player_turn_finished=True, fov_recompute=True)
+        else:
+            # No valid movement, so no need to recompute FOV
+            return KeyResult()
+
+    def _allow_move(self, new_x, new_y):
+        return ((0 <= new_x < self.config.map_width) and
+                (0 <= new_y < self.config.map_height) and
+                not self.map[new_x][new_y].block_move and
+                not self.objects.is_blocked(new_x, new_y)
+               )
+
+    def _draw_all(self, fov_recompute):
         self._draw_map(fov_recompute)
         self._draw_objects()
 
@@ -145,9 +185,18 @@ class VentureEngine:
             if in_fov or not self.config.object_use_fov:
                 o.draw()
 
-    def _allow_move(self, new_x, new_y):
-        return ((0 <= new_x < self.config.map_width) and
-                (0 <= new_y < self.config.map_height) and
-                not self.map[new_x][new_y].block_move and
-                not self.objects.is_blocked(new_x, new_y)
-               )
+
+class KeyResult:
+    """
+    Carries all of the metadata about the result of a user keypress.
+    """
+
+    def __init__(self,
+                 player_turn_finished=False,
+                 bumped_object=None,
+                 end_game=False,
+                 fov_recompute=False):
+        self.player_turn_finished = player_turn_finished
+        self.bumped_object = bumped_object
+        self.end_game = end_game
+        self.fov_recompute = fov_recompute
