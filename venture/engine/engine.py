@@ -68,7 +68,7 @@ class VentureEngine:
                 fov_recompute = True
             elif key_result.bumped_object is not None:
                 o = key_result.bumped_object
-                print('Bumped into %s at (%s, %s)' % (o.name, o.x, o.y))
+                print('Bumped into %s' % o)
 
     @staticmethod
     def _is_running():

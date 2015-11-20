@@ -34,7 +34,7 @@ class Objects(list):
         return self.at(x, y, blocks_movement=True) is not None
 
 
-class Object:
+class Object(object):
 
     def __init__(self, name=None, x=0, y=0,
                  avatar=None, color=None,
@@ -56,6 +56,11 @@ class Object:
         self.hp = hp or max_hp  # if unspecified, default to full life
         self.offense = offense
         self.defense = defense
+
+    def __str__(self):
+        s = '%s, (%s,%s), %s/%s'
+        data = (self.name, self.x, self.y, self.hp, self.max_hp)
+        return s % data
 
     def calculate_destination(self, dx, dy):
         new_x = self.x
