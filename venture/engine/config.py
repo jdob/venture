@@ -36,10 +36,6 @@ class VentureConfig:
         self.fov_light_walls = True
 
         # Map
-        self.wall_color_dark = cod.Color(104, 104, 104)
-        self.wall_color_light = cod.Color(116, 116, 116)
-        self.ground_color_dark = cod.Color(126, 126, 126)
-        self.ground_color_light = cod.Color(142, 142, 142)
         self.map_use_fog = True
 
         # Objects
@@ -55,7 +51,7 @@ class VentureConfig:
 
         # Mob
         self.mob_default_color = cod.Color(250, 120, 120)
-        self.mob_max_per_room = 3
+        self.mob_max_per_room = 2
 
 
 class DefaultSkin:
@@ -65,11 +61,11 @@ class DefaultSkin:
         self.wall_char = '#'
         self.wall_bg_dark = (20, 20, 20)
         self.wall_bg_light = self.wall_bg_dark
-        self.wall_fg_dark = (200, 200, 200)
-        self.wall_fg_light = (225, 225, 225)
+        self.wall_fg_dark = (150, 150, 150)
+        self.wall_fg_light = (235, 235, 235)
 
         self.ground_char = '.'
         self.ground_bg_dark = (20, 20, 20)
         self.ground_bg_light = self.ground_bg_dark
-        self.ground_fg_dark = (200, 200, 200)
-        self.ground_fg_light = (225, 225, 225)
+        self.ground_fg_dark = (150, 150, 150)
+        self.ground_fg_light = (235, 235, 235)
