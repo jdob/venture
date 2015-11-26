@@ -46,8 +46,7 @@ class VentureConsole:
 
     def put_map_char(self, char, x, y,
                      fg_color=cod.white, bg_color=cod.BKGND_NONE):
-        cod.console_set_default_foreground(self.map_console,
-                                           fg_color)
+        cod.console_set_default_foreground(self.map_console, fg_color)
         cod.console_put_char(self.map_console, x, y, char, bg_color)
 
     def clear_map_char(self, x, y):
@@ -60,7 +59,7 @@ class VentureConsole:
 
     def set_map_bg_color(self, color, x, y):
         cod.console_set_char_background(self.map_console, x, y,
-                                        color, cod.BKGND_SET )
+                                        color, cod.BKGND_SET)
 
     def compute_fov(self, x, y):
         cod.map_compute_fov(self.fov_map, x, y,
@@ -70,6 +69,10 @@ class VentureConsole:
 
     def in_fov(self, x, y):
         return cod.map_is_in_fov(self.fov_map, x, y)
+
+    @staticmethod
+    def color(r, g, b):
+        return cod.Color(r, g, b)
 
     @staticmethod
     def flush():

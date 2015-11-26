@@ -163,21 +163,38 @@ class VentureEngine:
                 in_fov = self.console.in_fov(x, y)
                 is_wall = self.map[x][y].block_sight
 
+                bg_color = None
+                fg_color = None
+                char = None
+
                 if not in_fov:
                     # If not in the current FOV, only draw if it's
                     # been explored
                     if self.map[x][y].explored or not self.config.map_use_fog:
                         if is_wall:
-                            self.console.set_map_bg_color(self.config.wall_color_dark, x, y)
+                            bg_color = self.console.color(*self.config.skin.wall_bg_dark)
+                            fg_color = self.console.color(*self.config.skin.wall_fg_dark)
+                            char = self.config.skin.wall_char
                         else:
-                            self.console.set_map_bg_color(self.config.ground_color_dark, x, y)
+                            bg_color = self.console.color(*self.config.skin.ground_bg_dark)
+                            fg_color = self.console.color(*self.config.skin.ground_fg_dark)
+                            char = self.config.skin.ground_char
                 else:
                     self.map[x][y].explored = True
 
                     if is_wall:
-                        self.console.set_map_bg_color(self.config.wall_color_light, x, y)
+                        bg_color = self.console.color(*self.config.skin.wall_bg_light)
+                        fg_color = self.console.color(*self.config.skin.wall_fg_light)
+                        char = self.config.skin.wall_char
                     else:
-                        self.console.set_map_bg_color(self.config.ground_color_light, x, y)
+                        bg_color = self.console.color(*self.config.skin.ground_bg_light)
+                        fg_color = self.console.color(*self.config.skin.ground_fg_light)
+                        char = self.config.skin.ground_char
+
+                if char is not None:
+                    self.console.set_map_bg_color(bg_color, x, y)
+                    self.console.put_map_char(char, x, y,
+                                              fg_color=fg_color)
 
     def _draw_objects(self):
         for o in self.objects:
