@@ -78,14 +78,15 @@ class VentureEngine:
 
         # Configure for turn-based
         key = cod.console_wait_for_keypress(True)
-     
+        key_char = chr(key.c)
+
         # Alt+Enter: toggle fullscreen
         if key.vk == cod.KEY_ENTER and key.lalt:
             cod.console_set_fullscreen(not cod.console_is_fullscreen())
             return KeyResult()
 
         # Exit Game
-        elif key.vk == cod.KEY_ESCAPE:
+        elif key_char == 'q':
             return KeyResult(end_game=True)
      
         # Movement
