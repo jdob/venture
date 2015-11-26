@@ -91,21 +91,30 @@ class VentureEngine:
      
         # Movement
         dx = dy = None
-        if cod.console_is_key_pressed(cod.KEY_UP):
+        if cod.console_is_key_pressed(cod.KEY_UP) or key_char == 'k':
             dx = 0
             dy = -1
-
-        elif cod.console_is_key_pressed(cod.KEY_DOWN):
+        elif cod.console_is_key_pressed(cod.KEY_DOWN) or key_char == 'j':
             dx = 0
             dy = 1
-
-        elif cod.console_is_key_pressed(cod.KEY_LEFT):
+        elif cod.console_is_key_pressed(cod.KEY_LEFT) or key_char == 'h':
             dx = -1
             dy = 0
-
-        elif cod.console_is_key_pressed(cod.KEY_RIGHT):
+        elif cod.console_is_key_pressed(cod.KEY_RIGHT) or key_char == 'l':
             dx = 1
             dy = 0
+        elif key_char == 'y':
+            dx = -1
+            dy = -1
+        elif key_char == 'u':
+            dx = 1
+            dy = -1
+        elif key_char == 'b':
+            dx = -1
+            dy = 1
+        elif key_char == 'n':
+            dx = 1
+            dy = 1
 
         if dx is not None:
             return self._handle_player_move_or_attack(dx, dy)
