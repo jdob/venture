@@ -39,8 +39,6 @@ class Object(object):
     def __init__(self, name=None, x=0, y=0,
                  avatar=None, color=None,
                  movable=True, blocks_movement=True,
-                 max_hp=sys.maxint, hp=None,
-                 offense=0, defense=0,
                  **kwargs):
         self.name = name
 
@@ -51,11 +49,6 @@ class Object(object):
 
         self.avatar = avatar
         self.color = color
-
-        self.max_hp = max_hp
-        self.hp = hp or max_hp  # if unspecified, default to full life
-        self.offense = offense
-        self.defense = defense
 
     def __str__(self):
         s = '%s, (%s,%s), %s/%s'
@@ -84,3 +77,20 @@ class Object(object):
 
     def clear(self):
         get_context().console.clear_map_char(self.x, self.y)
+
+
+class Combatant(Object):
+
+    def __init__(self, name=None, x=0, y=0, avatar=None, color=None,
+                 movable=True, blocks_movement=True,
+                 max_hp=sys.maxint, hp=None,
+                 offense=0, defense=0,
+                 **kwargs):
+        super(Combatant, self).__init__(name, x, y, avatar, color, movable,
+                                        blocks_movement, **kwargs)
+
+        self.max_hp = max_hp
+        self.hp = hp or max_hp  # if unspecified, default to full life
+        self.offense = offense
+        self.defense = defense
+

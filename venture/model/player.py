@@ -11,16 +11,16 @@
 # under the License.
 
 from venture.engine.context import get_context
-from venture.model.base import Object
+from venture.model.base import Combatant
 
 
-class Player(Object):
+class Player(Combatant):
 
     def __init__(self):
         config = get_context().config
-        Object.__init__(self,
-                        avatar=config.player_avatar,
-                        color=config.player_color,
-                        max_hp=config.player_max_hp,
-                        offense=config.player_offense,
-                        defense=config.player_defense)
+        Combatant.__init__(self,
+                           avatar=config.player_avatar,
+                           color=config.player_color,
+                           max_hp=config.player_max_hp,
+                           offense=config.player_offense,
+                           defense=config.player_defense)

@@ -10,17 +10,17 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.model.base import Object
+from venture.model.base import Combatant
 
 
-class Mob(Object):
+class Mob(Combatant):
 
     def __init__(self, name, avatar, color, max_hp,
                  hp, offense, defense, **kwargs):
-        Object.__init__(self, name=name,
-                        avatar=avatar,
-                        color=color,
-                        max_hp=max_hp,
-                        hp=hp,
-                        offense=offense,
-                        defense=defense)
+        Combatant.__init__(self, name=name,
+                           avatar=avatar,
+                           color=color,
+                           max_hp=max_hp,
+                           hp=hp,
+                           offense=offense,
+                           defense=defense)
