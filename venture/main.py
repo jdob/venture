@@ -20,21 +20,24 @@ ENABLE_DEBUG_OPTIONS = True
 
 
 def main():
+    game().initialize()
+
     if ENABLE_DEBUG_OPTIONS:
         _parse_args()
 
     engine = VentureEngine()
-    engine.initialize()
     engine.run()
 
 
 def gen_test():
+    game().initialize()
+
+    # Configure with the generation test parameters
     config = game().config
     config.map_use_fog = False
     config.object_use_fov = False
 
     engine = VentureEngine()
-    engine.initialize()
     engine.run()
 
 

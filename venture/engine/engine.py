@@ -12,39 +12,25 @@
 
 from venture.engine import game
 from venture.lib import libtcodpy as cod
-from venture.maps.tomb import Tomb
-from venture.mobs.simple import SimpleMobGenerator
 from venture.model.base import Objects
-from venture.model.player import Player
 
 
 class VentureEngine:
 
     def __init__(self):
+
+        # These variables left in place to speed along porting
+        # all of these values into Game. There shouldn't be an
+        # issue (just looks a bit weird) and will make accessing
+        # them a bit cleaner.
         self.game = game.game()
         self.config = self.game.config
         self.console = self.game.console
 
-        self.objects = Objects()
-        self.map = None
-        self.player = None
-        self.mob_generator = None
-
-    def initialize(self):
-
-        self.map = Tomb(5, 4)
-        self.map.generate()
-
-        self.console.initialize()
-        self.console.initialize_fov(self.map)
-
-        self.player = Player()
-        self.player.x, self.player.y = self.map.player_start_location()
-        self.objects.append(self.player)
-
-        self.mob_generator = SimpleMobGenerator()
-        added_mobs = self.mob_generator.add_mobs(self.map.rooms)
-        self.objects.extend(added_mobs)
+        self.objects = self.game.objects
+        self.map = self.game.map
+        self.player = self.game.player
+        self.mob_generator = self.game.mob_generator
 
     def run(self):
 

@@ -15,9 +15,11 @@ from venture.model.base import Combatant
 
 class Mob(Combatant):
 
-    def __init__(self, name, avatar, color, max_hp,
+    def __init__(self, game, name, avatar, color, max_hp,
                  hp, offense, defense, **kwargs):
-        Combatant.__init__(self, name=name,
+        Combatant.__init__(self,
+                           game,
+                           name=name,
                            avatar=avatar,
                            color=color,
                            max_hp=max_hp,

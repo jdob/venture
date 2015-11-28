@@ -12,15 +12,14 @@
 
 import random
 
-from venture.engine.game import game
 from venture.model.map import Map, Room
 
 
 class SloppyDungeon(Map):
 
-    def __init__(self, room_min_size, room_max_size, max_rooms,
+    def __init__(self, game, room_min_size, room_max_size, max_rooms,
                  iterable=None, **kwargs):
-        super(SloppyDungeon, self).__init__(iterable, **kwargs)
+        super(SloppyDungeon, self).__init__(game, iterable, **kwargs)
 
         self.room_min_size = room_min_size
         self.room_max_size = room_max_size
@@ -28,7 +27,7 @@ class SloppyDungeon(Map):
 
     def generate(self):
         super(SloppyDungeon, self).generate()
-        config = game().config
+        config = self.game.config
 
         rooms = []
         num_rooms = 0

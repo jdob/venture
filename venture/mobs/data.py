@@ -12,13 +12,11 @@
 
 import random
 
-from venture.engine.game import game
-
 
 _TEMPLATE = {
     'name': 'UNKNOWN',
     'avatar': 'X',
-    'color': game().config.mob_default_color,
+    'color': (250, 120, 120),  # this needs to move
     'weight': 5,
     'max_hp': 10,
     'offense': 1,

@@ -12,7 +12,6 @@
 
 import random
 
-from venture.engine.game import game
 from venture.mobs import data
 from venture.model.mobs import Mob
 
@@ -22,8 +21,11 @@ class SimpleMobGenerator:
     Adds a random (up to a limit) number of mobs per room.
     """
 
+    def __init__(self, game):
+        self.game = game
+
     def add_mobs(self, rooms):
-        config = game().config
+        config = self.game.config
 
         added_mobs = []
         for room in rooms:
@@ -35,7 +37,7 @@ class SimpleMobGenerator:
                 y = random.randint(room.y1, room.y2 - 1)
 
                 mob_type = data.random_mob()
-                mob = Mob(**mob_type)
+                mob = Mob(self.game, **mob_type)
 
                 mob.x = x
                 mob.y = y

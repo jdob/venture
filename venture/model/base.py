@@ -13,8 +13,6 @@
 import math
 import sys
 
-from venture.engine.game import game
-
 
 class Objects(list):
 
@@ -37,10 +35,12 @@ class Objects(list):
 
 class Object(object):
 
-    def __init__(self, name=None, x=0, y=0,
+    def __init__(self, game,
+                 name=None, x=0, y=0,
                  avatar=None, color=None,
                  movable=True, blocks_movement=True,
                  **kwargs):
+        self.game = game
         self.name = name
 
         self.x = x
@@ -49,11 +49,11 @@ class Object(object):
         self.blocks_movement = blocks_movement
 
         self.avatar = avatar
-        self.color = color
+        self.color = self.game.console.color(*color)
 
     def __str__(self):
-        s = '%s, (%s,%s), %s/%s'
-        data = (self.name, self.x, self.y, self.hp, self.max_hp)
+        s = '%s, (%s,%s)'
+        data = (self.name, self.x, self.y)
         return s % data
 
     def calculate_destination(self, dx, dy):
@@ -88,25 +88,30 @@ class Object(object):
         return math.sqrt(dx ** 2 + dy ** 2)
 
     def draw(self):
-        game().console.put_map_char(self.avatar, self.x, self.y,
-                                    fg_color=self.color)
+        self.game.console.put_map_char(self.avatar, self.x, self.y,
+                                       fg_color=self.color)
 
     def clear(self):
-        game().console.clear_map_char(self.x, self.y)
+        self.game.console.clear_map_char(self.x, self.y)
 
 
 class Combatant(Object):
 
-    def __init__(self, name=None, x=0, y=0, avatar=None, color=None,
+    def __init__(self, game,
+                 name=None, x=0, y=0, avatar=None, color=None,
                  movable=True, blocks_movement=True,
                  max_hp=sys.maxint, hp=None,
                  offense=0, defense=0,
                  **kwargs):
-        super(Combatant, self).__init__(name, x, y, avatar, color, movable,
-                                        blocks_movement, **kwargs)
+        super(Combatant, self).__init__(game, name, x, y, avatar, color,
+                                        movable, blocks_movement, **kwargs)
 
         self.max_hp = max_hp
         self.hp = hp or max_hp  # if unspecified, default to full life
         self.offense = offense
         self.defense = defense
 
+    def __str__(self):
+        s = '%s, (%s,%s), %s/%s'
+        data = (self.name, self.x, self.y, self.hp, self.max_hp)
+        return s % data

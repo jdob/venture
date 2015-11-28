@@ -10,13 +10,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.engine.game import game
-
 
 class Map(dict):
 
-    def __init__(self, iterable=None, **kwargs):
+    def __init__(self, game, iterable=None, **kwargs):
         super(Map, self).__init__(iterable=iterable, **kwargs)
+
+        self.game = game
         self._map = None
         self._rooms = []
 
@@ -29,7 +29,7 @@ class Map(dict):
         return list(self._rooms)
 
     def generate(self):
-        config = game().config
+        config = self.game.config
 
         # Block everything by default
         self._map = [[Tile(block_move=True)
@@ -37,7 +37,7 @@ class Map(dict):
                      for x in range(config.map_width)]
 
     def player_start_location(self):
-        config = game().config
+        config = self.game.config
 
         # Ghetto implementation: return the first usable tile
         for x in range(config.map_width):

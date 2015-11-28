@@ -12,13 +12,43 @@
 
 from venture.engine.config import VentureConfig
 from venture.engine.console import VentureConsole
+from venture.maps.tomb import Tomb
+from venture.mobs.simple import SimpleMobGenerator
+from venture.model.base import Objects
+from venture.model.player import Player
 
 
 class Game:
 
     def __init__(self):
+        self.config = None
+        self.console = None
+
+        self.objects = None
+        self.map = None
+
+        self.player = None
+        self.mob_generator = None
+
+    def initialize(self):
         self.config = VentureConfig()
         self.console = VentureConsole(self.config)
+
+        self.objects = Objects()
+
+        self.map = Tomb(self, 5, 4, 1)
+        self.map.generate()
+
+        self.console.initialize()
+        self.console.initialize_fov(self.map)
+
+        self.player = Player(self)
+        self.player.x, self.player.y = self.map.player_start_location()
+        self.objects.append(self.player)
+
+        self.mob_generator = SimpleMobGenerator(self)
+        added_mobs = self.mob_generator.add_mobs(self.map.rooms)
+        self.objects.extend(added_mobs)
 
 
 __GAME = Game()

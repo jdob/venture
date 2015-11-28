@@ -10,8 +10,6 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.lib import libtcodpy as cod
-
 
 class VentureConfig:
 
@@ -43,14 +41,14 @@ class VentureConfig:
 
         # Player
         self.player_avatar = '@'
-        self.player_color = cod.Color(49, 192, 214)
+        self.player_color = (49, 192, 214)
         self.player_torch_radius = 10
         self.player_max_hp = 20
         self.player_offense = 5
         self.player_defense = 5
 
         # Mob
-        self.mob_default_color = cod.Color(250, 120, 120)
+        self.mob_default_color = (250, 120, 120)
         self.mob_max_per_room = 2
 
 
