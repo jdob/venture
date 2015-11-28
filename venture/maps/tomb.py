@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 from venture.model.map import Map, Room
 
 
@@ -90,7 +90,7 @@ class Tomb(Map):
         :return: size of each room, sum of all rooms and corridors
         :rtype: int, int
         """
-        config = get_context().config
+        config = game().config
 
         short_side = min(config.map_height, config.map_width)
 
@@ -110,7 +110,7 @@ class Tomb(Map):
 
     @staticmethod
     def _calculate_padding(total_size):
-        config = get_context().config
+        config = game().config
         pad_x = (config.map_width - total_size) / 2
         pad_y = (config.map_height - total_size) / 2
         return pad_x, pad_y

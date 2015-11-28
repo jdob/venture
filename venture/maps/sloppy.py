@@ -12,7 +12,7 @@
 
 import random
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 from venture.model.map import Map, Room
 
 
@@ -28,7 +28,7 @@ class SloppyDungeon(Map):
 
     def generate(self):
         super(SloppyDungeon, self).generate()
-        config = get_context().config
+        config = game().config
 
         rooms = []
         num_rooms = 0

@@ -13,7 +13,7 @@
 import argparse
 
 from venture.engine.engine import VentureEngine
-from venture.engine.context import get_context
+from venture.engine.game import game
 
 
 ENABLE_DEBUG_OPTIONS = True
@@ -29,7 +29,7 @@ def main():
 
 
 def gen_test():
-    config = get_context().config
+    config = game().config
     config.map_use_fog = False
     config.object_use_fov = False
 
@@ -46,7 +46,7 @@ def _parse_args():
     args = parser.parse_args()
     args = vars(args)
 
-    config = get_context().config
+    config = game().config
     config.map_use_fog = not args['no_fog']
     config.object_use_fov = not args['no_fov']
 

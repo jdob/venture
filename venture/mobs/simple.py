@@ -12,7 +12,7 @@
 
 import random
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 from venture.mobs import data
 from venture.model.mobs import Mob
 
@@ -23,7 +23,7 @@ class SimpleMobGenerator:
     """
 
     def add_mobs(self, rooms):
-        config = get_context().config
+        config = game().config
 
         added_mobs = []
         for room in rooms:

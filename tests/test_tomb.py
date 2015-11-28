@@ -12,7 +12,7 @@
 
 import unittest
 
-from venture.engine.context import get_context
+from venture.engine.context import game
 from venture.maps.tomb import Tomb
 
 
@@ -20,7 +20,7 @@ class TombTests(unittest.TestCase):
 
     def setUp(self):
         super(TombTests, self).setUp()
-        self.config = get_context().config
+        self.config = game().config
 
     def test_calculate_size_no_corridors(self):
         # Test

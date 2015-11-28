@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.engine import context
+from venture.engine import game
 from venture.lib import libtcodpy as cod
 from venture.maps.tomb import Tomb
 from venture.mobs.simple import SimpleMobGenerator
@@ -21,9 +21,9 @@ from venture.model.player import Player
 class VentureEngine:
 
     def __init__(self):
-        self.context = context.get_context()
-        self.config = self.context.config
-        self.console = self.context.console
+        self.game = game.game()
+        self.config = self.game.config
+        self.console = self.game.console
 
         self.objects = Objects()
         self.map = None
@@ -52,8 +52,8 @@ class VentureEngine:
         while self._is_running():
 
             self._draw_all(fov_recompute)
-            self.context.console.blit_map()
-            self.context.console.flush()
+            self.game.console.blit_map()
+            self.game.console.flush()
 
             for o in self.objects:
                 o.clear()

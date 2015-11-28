@@ -13,7 +13,7 @@
 import math
 import sys
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 
 
 class Objects(list):
@@ -88,12 +88,11 @@ class Object(object):
         return math.sqrt(dx ** 2 + dy ** 2)
 
     def draw(self):
-        context = get_context()
-        context.console.put_map_char(self.avatar, self.x, self.y,
-                                     fg_color=self.color)
+        game().console.put_map_char(self.avatar, self.x, self.y,
+                                    fg_color=self.color)
 
     def clear(self):
-        get_context().console.clear_map_char(self.x, self.y)
+        game().console.clear_map_char(self.x, self.y)
 
 
 class Combatant(Object):

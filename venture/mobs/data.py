@@ -12,13 +12,13 @@
 
 import random
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 
 
 _TEMPLATE = {
     'name': 'UNKNOWN',
     'avatar': 'X',
-    'color': get_context().config.mob_default_color,
+    'color': game().config.mob_default_color,
     'weight': 5,
     'max_hp': 10,
     'offense': 1,

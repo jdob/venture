@@ -10,14 +10,14 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.engine.context import get_context
+from venture.engine.game import game
 from venture.model.base import Combatant
 
 
 class Player(Combatant):
 
     def __init__(self):
-        config = get_context().config
+        config = game().config
         Combatant.__init__(self,
                            avatar=config.player_avatar,
                            color=config.player_color,

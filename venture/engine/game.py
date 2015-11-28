@@ -14,15 +14,15 @@ from venture.engine.config import VentureConfig
 from venture.engine.console import VentureConsole
 
 
-class VentureContext:
+class Game:
 
     def __init__(self):
         self.config = VentureConfig()
         self.console = VentureConsole(self.config)
 
 
-__CONTEXT = VentureContext()
+__GAME = Game()
 
 
-def get_context():
-    return __CONTEXT
+def game():
+    return __GAME
