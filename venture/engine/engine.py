@@ -142,7 +142,7 @@ class VentureEngine:
         if mob is not None:
             return KeyResult(player_turn_finished=True, bumped_object=mob)
 
-        # If the player didnt' bump into a mob, see if the move is valid
+        # If the player didn't bump into a mob, see if the move is valid
         # with respect to the map
         if self._allow_move(new_x, new_y):
             self.player.move(dx, dy)

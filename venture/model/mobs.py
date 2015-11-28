@@ -24,3 +24,7 @@ class Mob(Combatant):
                            hp=hp,
                            offense=offense,
                            defense=defense)
+
+#    def take_turn(self, ):
+
+        # Default behavior is to run at the player
