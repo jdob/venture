@@ -58,6 +58,12 @@ class VentureEngine:
             if key_result.player_turn_finished:
                 self._activate_mobs()
 
+    def allow_move(self, new_x, new_y):
+        return ((0 <= new_x < self.config.map_width) and
+                (0 <= new_y < self.config.map_height) and
+                not self.map[new_x][new_y].block_move and
+                not self.objects.is_blocked(new_x, new_y)
+               )
 
     @staticmethod
     def _is_running():
@@ -133,7 +139,7 @@ class VentureEngine:
 
         # If the player didn't bump into a mob, see if the move is valid
         # with respect to the map
-        if self._allow_move(new_x, new_y):
+        if self.allow_move(new_x, new_y):
             self.player.move(dx, dy)
             return KeyResult(player_turn_finished=True, fov_recompute=True)
         else:
@@ -144,13 +150,6 @@ class VentureEngine:
         mobs = [o for o in self.game.objects if o != self.game.player]
         for m in mobs:
             m.take_turn()
-
-    def _allow_move(self, new_x, new_y):
-        return ((0 <= new_x < self.config.map_width) and
-                (0 <= new_y < self.config.map_height) and
-                not self.map[new_x][new_y].block_move and
-                not self.objects.is_blocked(new_x, new_y)
-               )
 
     def _draw_all(self, fov_recompute):
         self._draw_map(fov_recompute)
