@@ -19,6 +19,7 @@ class Player(Combatant):
         config = game.config
         Combatant.__init__(self,
                            game,
+                           name='Player',  # for debug purposes
                            avatar=config.player_avatar,
                            color=config.player_color,
                            max_hp=config.player_max_hp,

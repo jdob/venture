@@ -112,7 +112,7 @@ class Combatant(Object):
                                         movable, blocks_movement, **kwargs)
 
         self.max_hp = max_hp
-        self.hp = hp or max_hp  # if unspecified, default to full life
+        self.hp = hp or max_hp   # if unspecified, default to full life
         self.offense = offense
         self.defense = defense
 
@@ -120,3 +120,18 @@ class Combatant(Object):
         s = '%s, (%s,%s), %s/%s'
         data = (self.name, self.x, self.y, self.hp, self.max_hp)
         return s % data
+
+    def is_alive(self):
+        return self.hp > 0
+
+    def attack(self, target):
+        damage = self.offense - target.defense
+
+        if damage > 0:
+            target.take_damage(damage)
+            print('%s attacks %s for %s' % (self.name, target.name, damage))
+        else:
+            print('%s does no damage to %s' % (self.name, target.name))
+
+    def take_damage(self, amount):
+        self.hp -= amount

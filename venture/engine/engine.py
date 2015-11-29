@@ -51,12 +51,16 @@ class VentureEngine:
             elif key_result.fov_recompute:
                 fov_recompute = True
             elif key_result.bumped_object is not None:
-                o = key_result.bumped_object
-                print('Bumped into %s' % o)
+                self._player_attack(key_result.bumped_object)
 
             # Mobs turn (if the player made its move)
             if key_result.player_turn_finished:
                 self._activate_mobs()
+
+            # See if the player survived the turn
+            if not self.player.is_alive():
+                print('Player dies!')
+                return
 
     def allow_move(self, new_x, new_y):
         return ((0 <= new_x < self.config.map_width) and
@@ -146,10 +150,22 @@ class VentureEngine:
             # No valid movement, so no need to recompute FOV
             return KeyResult()
 
+    def _player_attack(self, mob):
+        self.player.attack(mob)
+
+        if not mob.is_alive():
+            print('%s dies!' % mob.name)
+            self.game.objects.remove(mob)
+
+
     def _activate_mobs(self):
         mobs = [o for o in self.game.objects if o != self.game.player]
         for m in mobs:
             m.take_turn()
+
+            # Make sure the player survived
+            if not self.player.is_alive():
+                return
 
     def _draw_all(self, fov_recompute):
         self._draw_map(fov_recompute)

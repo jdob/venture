@@ -53,4 +53,4 @@ class Mob(Combatant):
                     pass
 
             else:
-                print('Attacking!')
+                self.attack(self.game.player)
