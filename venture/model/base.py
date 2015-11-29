@@ -72,6 +72,10 @@ class Object(object):
             self.y += dy
 
     def move_towards(self, target_x, target_y):
+        dx, dy = self.calculate_move_towards(target_x, target_y)
+        self.move(dx, dy)
+
+    def calculate_move_towards(self, target_x, target_y):
         dx = target_x - self.x
         dy = target_y - self.y
         distance = math.sqrt(dx ** 2 + dy ** 2)
@@ -80,7 +84,8 @@ class Object(object):
         # convert to integer so the movement is restricted to the map grid
         dx = int(round(dx / distance))
         dy = int(round(dy / distance))
-        self.move(dx, dy)
+
+        return dx, dy
 
     def distance_to(self, other):
         dx = other.x - self.x

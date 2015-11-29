@@ -35,7 +35,22 @@ class Mob(Combatant):
 
             # If there is still distance to cover, move
             if self.distance_to(self.game.player) >= 2:
-                self.move_towards(self.game.player.x, self.game.player.y)
+                dx, dy = self.calculate_move_towards(self.game.player.x,
+                                                     self.game.player.y)
+                new_x = self.x + dx
+                new_y = self.y + dy
+
+                # Make sure this is a valid move
+                if self.game.engine.allow_move(new_x, new_y):
+                    # This is a big ugly since it recalculates the move,
+                    # but I don't have a clean API to set an object's
+                    # location directly and it's not a huge calculation
+                    self.move_towards(self.game.player.x,
+                                      self.game.player.y)
+                else:
+                    # Will need to do something smarter here, but for now
+                    # just stay put
+                    pass
 
             else:
                 print('Attacking!')
