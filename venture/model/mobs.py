@@ -27,6 +27,15 @@ class Mob(Combatant):
                            offense=offense,
                            defense=defense)
 
-#    def take_turn(self, ):
+    def take_turn(self):
 
         # Default behavior is to run at the player
+        # if it can be seen
+        if self.game.console.in_fov(self.x, self.y):
+
+            # If there is still distance to cover, move
+            if self.distance_to(self.game.player) >= 2:
+                self.move_towards(self.game.player.x, self.game.player.y)
+
+            else:
+                print('Attacking!')

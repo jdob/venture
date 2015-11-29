@@ -12,7 +12,6 @@
 
 from venture.engine import game
 from venture.lib import libtcodpy as cod
-from venture.model.base import Objects
 
 
 class VentureEngine:
@@ -55,6 +54,11 @@ class VentureEngine:
             elif key_result.bumped_object is not None:
                 o = key_result.bumped_object
                 print('Bumped into %s' % o)
+
+            # Mobs turn (if the player made its move)
+            if key_result.player_turn_finished:
+                self._activate_mobs()
+
 
     @staticmethod
     def _is_running():
@@ -136,6 +140,11 @@ class VentureEngine:
         else:
             # No valid movement, so no need to recompute FOV
             return KeyResult()
+
+    def _activate_mobs(self):
+        mobs = [o for o in self.game.objects if o != self.game.player]
+        for m in mobs:
+            m.take_turn()
 
     def _allow_move(self, new_x, new_y):
         return ((0 <= new_x < self.config.map_width) and
