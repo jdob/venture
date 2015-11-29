@@ -29,6 +29,12 @@ class Mob(Combatant):
 
     def activate(self):
 
+        # The corpse will stick around after dieing, but needless to say,
+        # we don't want it to act (well, in most cases :)
+
+        if not self.is_alive():
+            return
+
         # Default behavior is to run at the player
         # if it can be seen
         if self.game.console.in_fov(self.x, self.y):
@@ -54,3 +60,17 @@ class Mob(Combatant):
 
             else:
                 self.attack(self.game.player)
+
+    def die(self):
+
+        def darken(i):
+            return max(0, i-40)
+
+        # Darken the avatar's rendering
+        self.color = self.game.console.color(
+            darken(self.color['r']),
+            darken(self.color['g']),
+            darken(self.color['b'])
+        )
+        self.blocks_movement = False
+        self.movable = False

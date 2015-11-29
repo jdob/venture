@@ -151,12 +151,17 @@ class VentureEngine:
             return KeyResult()
 
     def _player_attack(self, mob):
+
+        # No need to beat a corpse :)
+        if not mob.is_alive():
+            return
+
         self.player.attack(mob)
 
         if not mob.is_alive():
             print('%s dies!' % mob.name)
             mob.die()
-            self.game.objects.remove(mob)
+            # self.game.objects.remove(mob)
             self._draw_tile(mob.x, mob.y)
 
     def _activate_mobs(self):
