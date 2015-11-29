@@ -125,13 +125,37 @@ class Combatant(Object):
         return self.hp > 0
 
     def attack(self, target):
+
+        # Hooks to allow combat to be modified
+        self.pre_attack()
+        target.pre_defend()
+
         damage = self.offense - target.defense
 
         if damage > 0:
-            target.take_damage(damage)
+            target.damage(damage)
             print('%s attacks %s for %s' % (self.name, target.name, damage))
         else:
             print('%s does no damage to %s' % (self.name, target.name))
 
-    def take_damage(self, amount):
+        target.post_defend()
+        self.post_attack()
+
+    def damage(self, amount):
         self.hp -= amount
+
+    def pre_attack(self):
+        pass
+
+    def post_attack(self):
+        pass
+
+    def pre_defend(self):
+        pass
+
+    def post_defend(self):
+        pass
+
+    def die(self):
+        pass
+

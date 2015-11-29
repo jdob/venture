@@ -27,7 +27,7 @@ class Mob(Combatant):
                            offense=offense,
                            defense=defense)
 
-    def take_turn(self):
+    def activate(self):
 
         # Default behavior is to run at the player
         # if it can be seen
