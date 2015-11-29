@@ -12,7 +12,7 @@
 
 import unittest
 
-from venture.engine.context import game
+from venture.engine.game import game
 from venture.maps.tomb import Tomb
 
 
@@ -20,7 +20,9 @@ class TombTests(unittest.TestCase):
 
     def setUp(self):
         super(TombTests, self).setUp()
-        self.config = game().config
+        self.g = game()
+        self.g.initialize()
+        self.config = self.g.config
 
     def test_calculate_size_no_corridors(self):
         # Test
@@ -49,5 +51,5 @@ class TombTests(unittest.TestCase):
         corridor_size = corridor_size
 
         # Test
-        t = Tomb(grid_size, corridor_size)
+        t = Tomb(self.g, grid_size, corridor_size)
         return t._calculate_room_size()
