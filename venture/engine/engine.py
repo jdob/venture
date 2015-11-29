@@ -10,19 +10,18 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from venture.engine import game
 from venture.lib import libtcodpy as cod
 
 
 class VentureEngine:
 
-    def __init__(self):
+    def __init__(self, game):
 
         # These variables left in place to speed along porting
         # all of these values into Game. There shouldn't be an
         # issue (just looks a bit weird) and will make accessing
         # them a bit cleaner.
-        self.game = game.game()
+        self.game = game
         self.config = self.game.config
         self.console = self.game.console
 

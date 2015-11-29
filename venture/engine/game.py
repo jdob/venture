@@ -12,6 +12,7 @@
 
 from venture.engine.config import VentureConfig
 from venture.engine.console import VentureConsole
+from venture.engine.engine import VentureEngine
 from venture.maps.tomb import Tomb
 from venture.mobs.simple import SimpleMobGenerator
 from venture.model.base import Objects
@@ -23,6 +24,7 @@ class Game:
     def __init__(self):
         self.config = None
         self.console = None
+        self.engine = None
 
         self.objects = None
         self.map = None
@@ -49,6 +51,8 @@ class Game:
         self.mob_generator = SimpleMobGenerator(self)
         added_mobs = self.mob_generator.add_mobs(self.map.rooms)
         self.objects.extend(added_mobs)
+
+        self.engine = VentureEngine(self)
 
 
 __GAME = Game()

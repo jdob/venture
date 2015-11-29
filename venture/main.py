@@ -12,7 +12,6 @@
 
 import argparse
 
-from venture.engine.engine import VentureEngine
 from venture.engine.game import game
 
 
@@ -25,8 +24,7 @@ def main():
     if ENABLE_DEBUG_OPTIONS:
         _parse_args()
 
-    engine = VentureEngine()
-    engine.run()
+    game().engine.run()
 
 
 def gen_test():
@@ -37,8 +35,7 @@ def gen_test():
     config.map_use_fog = False
     config.object_use_fov = False
 
-    engine = VentureEngine()
-    engine.run()
+    game().engine.run()
 
 
 def _parse_args():
