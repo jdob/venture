@@ -64,7 +64,7 @@ class Mob(Combatant):
     def die(self):
 
         def darken(i):
-            return max(0, i-40)
+            return max(0, i - 60)
 
         # Darken the avatar's rendering
         self.color = self.game.console.color(

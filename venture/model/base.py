@@ -16,22 +16,23 @@ import sys
 
 class Objects(list):
 
-    def at(self, x, y, blocks_movement=False):
+    def at(self, x, y):
         found = [o for o in self if o.x == x and o.y == y]
-        if blocks_movement:
-            found = [o for o in found if o.blocks_movement]
 
         if len(found) > 1:
-            raise Exception('Multiple objects [%s] found at (%s, %s)'
-                            % (len(found), x, y))
-        elif len(found) == 1:
+            # Shouldn't happen, but as a safety so we know
+            print('Multiple objects found at (%s, %s)' % (x, y))
+
+        if len(found) >= 1:
             return found[0]
         else:
             return None
 
     def is_blocked(self, x, y):
-        return self.at(x, y, blocks_movement=True) is not None
-
+        found = self.at(x, y)
+        if found is not None and found.blocks_movement:
+            return True
+        return False
 
 class Object(object):
 
@@ -49,6 +50,9 @@ class Object(object):
         self.blocks_movement = blocks_movement
 
         self.avatar = avatar
+
+        if color is None:
+            color = (128, 128, 128)
         self.color = self.game.console.color(*color)
 
     def __str__(self):

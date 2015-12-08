@@ -137,8 +137,9 @@ class VentureEngine:
         new_x, new_y = self.player.calculate_destination(dx, dy)
 
         # First see if there is a mob at the destination
+        # and it is still alive
         mob = self.objects.at(new_x, new_y)
-        if mob is not None:
+        if mob is not None and mob.is_alive():
             return KeyResult(player_turn_finished=True, bumped_object=mob)
 
         # If the player didn't bump into a mob, see if the move is valid
@@ -229,6 +230,11 @@ class VentureEngine:
             in_fov = self.console.in_fov(o.x, o.y)
             if in_fov or not self.config.object_use_fov:
                 o.draw()
+
+        # Draw the player again at the end; if it is
+        # occupying the same space as a valid object, we want
+        # the player appearing
+        self.player.draw()
 
 
 class KeyResult:
