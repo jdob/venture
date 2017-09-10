@@ -36,6 +36,8 @@ class VentureEngine:
         while self._is_running():
 
             self._draw_all(fov_recompute)
+            self.game.console.render_status_bar('[q] - quit')
+            self.game.console.blit_status_bar()
             self.game.console.blit_map()
             self.game.console.flush()
 

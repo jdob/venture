@@ -28,7 +28,10 @@ class VentureConfig:
         self.screen_height = 60
 
         self.map_width = 80
-        self.map_height = 55
+        self.map_height = 58
+
+        self.status_width = 80
+        self.status_height = 2
 
         self.fov_algorithm = 0
         self.fov_light_walls = True
@@ -49,7 +52,7 @@ class VentureConfig:
 
         # Mob
         self.mob_default_color = (250, 120, 120)
-        self.mob_max_per_room = 2
+        self.mob_max_per_room = 0
 
 
 class DefaultSkin:
@@ -67,3 +70,7 @@ class DefaultSkin:
         self.ground_bg_light = self.ground_bg_dark
         self.ground_fg_dark = (150, 150, 150)
         self.ground_fg_light = (235, 235, 235)
+
+        self.status_bar_fg = (179, 198, 255)
+        self.status_bar_bg = (25, 25, 25)
+        # self.status_bar_bg = (179, 198, 255)

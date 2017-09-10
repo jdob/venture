@@ -17,8 +17,10 @@ class VentureConsole:
 
     def __init__(self, config):
         self.config = config
-        self.map_console = None
         self.fov_map = None
+
+        self.map_console = None
+        self.status_console = None
 
     def initialize(self):
 
@@ -33,16 +35,18 @@ class VentureConsole:
         cod.sys_set_fps(self.config.fps_limit)
 
         # Consoles
-        self.map_console = cod.console_new(self.config.screen_width,
-                                           self.config.screen_height)
+        self.map_console = cod.console_new(self.config.map_width,
+                                           self.config.map_height)
+        self.status_console = cod.console_new(self.config.status_width,
+                                              self.config.status_height)
 
-    def initialize_fov(self, map):
+    def initialize_fov(self, f_map):
         self.fov_map = cod.map_new(self.config.map_width, self.config.map_height)
         for y in range(self.config.map_height):
             for x in range(self.config.map_width):
                 cod.map_set_properties(self.fov_map, x, y,
-                                       not map[x][y].block_sight,
-                                       not map[x][y].block_move)
+                                       not f_map[x][y].block_sight,
+                                       not f_map[x][y].block_move)
 
     def put_map_char(self, char, x, y,
                      fg_color=cod.white, bg_color=cod.BKGND_NONE):
@@ -69,6 +73,40 @@ class VentureConsole:
 
     def in_fov(self, x, y):
         return cod.map_is_in_fov(self.fov_map, x, y)
+
+    def render_status_bar(self, text):
+        # Clear the previous contents of the console (otherwise the colors
+        # get all weird)
+        cod.console_clear(self.status_console)
+
+        # Set the rendering colors for the status bar
+        cod.console_set_default_foreground(self.status_console,
+                                           self.color(*self.config.skin.status_bar_fg))
+        cod.console_set_default_background(self.status_console,
+                                           self.color(*self.config.skin.status_bar_bg))
+
+        # Not 100% sure what this does, but it was in the tutorial. Add this
+        # back if it turns out things are acting weird.
+        # cod.console_rect(self.status_console, 0, 0, self.config.status_width,
+        #                  self.config.status_height, False, cod.BKGND_SCREEN)
+
+        # Print the status bar text to the screen
+        #   The following will center the text
+        # cod.console_print_ex(self.status_console,
+        #                      self.config.status_width / 2, 0,
+        #                      cod.BKGND_NONE, cod.CENTER,
+        #                      text)
+
+        cod.console_print_ex(self.status_console,
+                             0, 0,
+                             cod.BKGND_NONE, cod.LEFT,
+                             text)
+
+    def blit_status_bar(self):
+        cod.console_blit(self.status_console, 0, 0,
+                         self.config.status_width,
+                         self.config.status_height, 0, 0,
+                         self.config.screen_height - self.config.status_height)
 
     @staticmethod
     def color(r, g, b):
