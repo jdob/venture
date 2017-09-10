@@ -42,6 +42,7 @@ def _parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--no-fog', dest='no_fog', action='store_true')
     parser.add_argument('--no-fov', dest='no_fov', action='store_true')
+    parser.add_argument('--no-mobs', dest='no_mobs', action='store_true')
 
     args = parser.parse_args()
     args = vars(args)
@@ -49,6 +50,8 @@ def _parse_args():
     config = game().config
     config.map_use_fog = not args['no_fog']
     config.object_use_fov = not args['no_fov']
+    if args['no_mobs']:
+        config.mob_max_per_room = 0
 
 
 if __name__ == '__main__':
