@@ -42,7 +42,7 @@ class Game:
         self.map.generate()
 
         self.console.initialize()
-        self.console.initialize_fov(self.map)
+        self.console.map.initialize_fov(self.map)
 
         self.player = Player(self)
         self.player.x, self.player.y = self.map.player_start_location()

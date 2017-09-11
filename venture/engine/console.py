@@ -13,15 +13,14 @@
 from venture.lib import libtcodpy as cod
 
 
-class VentureConsole:
+class VentureConsole(object):
 
     def __init__(self, config):
         self.config = config
-        self.fov_map = None
 
-        self.map_console = None
-        self.status_console = None
-        self.details_console = None
+        self.map = None
+        self.status = None
+        self.details = None
 
     def initialize(self):
 
@@ -36,12 +35,34 @@ class VentureConsole:
         cod.sys_set_fps(self.config.fps_limit)
 
         # Consoles
-        self.map_console = cod.console_new(self.config.map_width,
-                                           self.config.map_height)
-        self.status_console = cod.console_new(self.config.status_width,
-                                              self.config.status_height)
-        self.details_console = cod.console_new(self.config.details_width,
-                                               self.config.details_height)
+        self.map = Map(self.config)
+        self.status = StatusBar(self.config)
+        self.details = Details(self.config)
+
+    def blit(self):
+        self.map.blit()
+        self.status.blit()
+        self.details.blit()
+
+    @staticmethod
+    def color(r, g, b):
+        """
+        :deprecated: use the module function directly
+        """
+        return color(r, g, b)
+
+    @staticmethod
+    def flush():
+        cod.console_flush()
+
+
+class Map(object):
+
+    def __init__(self, config):
+        self.config = config
+        self.fov_map = None
+        self.console = cod.console_new(self.config.map_width,
+                                       self.config.map_height)
 
     def initialize_fov(self, f_map):
         self.fov_map = cod.map_new(self.config.map_width, self.config.map_height)
@@ -51,21 +72,21 @@ class VentureConsole:
                                        not f_map[x][y].block_sight,
                                        not f_map[x][y].block_move)
 
-    def put_map_char(self, char, x, y,
-                     fg_color=cod.white, bg_color=cod.BKGND_NONE):
-        cod.console_set_default_foreground(self.map_console, fg_color)
-        cod.console_put_char(self.map_console, x, y, char, bg_color)
+    def put_char(self, char, x, y,
+                 fg_color=cod.white, bg_color=cod.BKGND_NONE):
+        cod.console_set_default_foreground(self.console, fg_color)
+        cod.console_put_char(self.console, x, y, char, bg_color)
 
-    def clear_map_char(self, x, y):
-        cod.console_put_char(self.map_console, x, y, ' ', cod.BKGND_NONE)
+    def clear_char(self, x, y):
+        cod.console_put_char(self.console, x, y, ' ', cod.BKGND_NONE)
 
-    def blit_map(self):
-        cod.console_blit(self.map_console, 0, 0,
+    def blit(self):
+        cod.console_blit(self.console, 0, 0,
                          self.config.screen_width,
                          self.config.screen_height, 0, 0, 0)
 
-    def set_map_bg_color(self, color, x, y):
-        cod.console_set_char_background(self.map_console, x, y,
+    def set_bg_color(self, color, x, y):
+        cod.console_set_char_background(self.console, x, y,
                                         color, cod.BKGND_SET)
 
     def compute_fov(self, x, y):
@@ -77,15 +98,22 @@ class VentureConsole:
     def in_fov(self, x, y):
         return cod.map_is_in_fov(self.fov_map, x, y)
 
-    def render_status_bar(self, text):
+
+class StatusBar(object):
+    def __init__(self, config):
+        self.config = config
+        self.console = cod.console_new(self.config.status_width,
+                                       self.config.status_height)
+
+    def set_status(self, text):
         # Clear the previous contents of the console (otherwise the colors
         # get all weird)
-        cod.console_clear(self.status_console)
+        cod.console_clear(self.console)
 
         # Set the rendering colors for the status bar
         cod.console_set_default_foreground(
-            self.status_console,
-            self.color(*self.config.skin.status_bar_fg))
+            self.console,
+            color(*self.config.skin.status_bar_fg))
         # cod.console_set_default_background(
         #     self.status_console,
         #     self.color(*self.config.skin.status_bar_bg))
@@ -101,42 +129,46 @@ class VentureConsole:
         #                      self.config.status_width / 2, 0,
         #                      cod.BKGND_NONE, cod.CENTER,
         #                      text)
-        cod.console_print_ex(self.status_console,
+        cod.console_print_ex(self.console,
                              1, 0,
                              cod.BKGND_NONE, cod.LEFT,
                              text)
 
-    def blit_status_bar(self):
+    def blit(self):
         bar_y = self.config.screen_height - self.config.status_height
-        cod.console_blit(self.status_console, 0, 0,
+        cod.console_blit(self.console, 0, 0,
                          self.config.status_width,
                          self.config.status_height, 0,
                          0, bar_y)
 
-    def render_details(self, text):
-        cod.console_clear(self.details_console)
+
+class Details(object):
+
+    def __init__(self, config ):
+        self.config = config
+        self.console = cod.console_new(self.config.details_width,
+                                       self.config.details_height)
+
+    def set_text(self, text):
+        cod.console_clear(self.console)
         cod.console_set_default_foreground(
-            self.details_console,
-            self.color(*self.config.skin.details_fg)
+            self.console,
+            color(*self.config.skin.details_fg)
         )
-        cod.console_print_ex(self.details_console,
+        cod.console_print_ex(self.console,
                              1, 0,
                              cod.BKGND_NONE, cod.LEFT,
                              text)
 
-    def blit_details(self):
+    def blit(self):
         # Place to the right of the status bar, with a small gap
         details_x = self.config.status_width + 2
         details_y = self.config.screen_height - self.config.status_height
-        cod.console_blit(self.details_console, 0, 0,
+        cod.console_blit(self.console, 0, 0,
                          self.config.details_width,
                          self.config.details_height, 0,
                          details_x, details_y)
 
-    @staticmethod
-    def color(r, g, b):
-        return cod.Color(r, g, b)
 
-    @staticmethod
-    def flush():
-        cod.console_flush()
+def color(r, g, b):
+    return cod.Color(r, g, b)

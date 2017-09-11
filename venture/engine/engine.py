@@ -36,11 +36,9 @@ class VentureEngine:
         while self._is_running():
 
             self._draw_all(fov_recompute)
-            self.game.console.render_status_bar('Hero: 100/100')
-            self.game.console.render_details('Welcome to the Venture Society')
-            self.game.console.blit_status_bar()
-            self.game.console.blit_details()
-            self.game.console.blit_map()
+            self.game.console.status.set_status('Hero: 100/100')
+            self.game.console.details.set_text('Welcome to the Venture Society')
+            self.game.console.blit()
             self.game.console.flush()
 
             for o in self.objects:
@@ -186,14 +184,14 @@ class VentureEngine:
         if not fov_recompute:
             return
 
-        self.console.compute_fov(self.player.x, self.player.y)
+        self.console.map.compute_fov(self.player.x, self.player.y)
 
         for y in range(self.config.map_height):
             for x in range(self.config.map_width):
                 self._draw_tile(x, y)
 
     def _draw_tile(self, x, y):
-        in_fov = self.console.in_fov(x, y)
+        in_fov = self.console.map.in_fov(x, y)
         is_wall = self.map[x][y].block_sight
 
         bg_color = None
@@ -225,13 +223,13 @@ class VentureEngine:
                 char = self.config.skin.ground_char
 
         if char is not None:
-            self.console.set_map_bg_color(bg_color, x, y)
-            self.console.put_map_char(char, x, y,
+            self.console.map.set_bg_color(bg_color, x, y)
+            self.console.map.put_char(char, x, y,
                                       fg_color=fg_color)
 
     def _draw_objects(self):
         for o in self.objects:
-            in_fov = self.console.in_fov(o.x, o.y)
+            in_fov = self.console.map.in_fov(o.x, o.y)
             if in_fov or not self.config.object_use_fov:
                 o.draw()
 

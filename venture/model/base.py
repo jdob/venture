@@ -97,11 +97,11 @@ class Object(object):
         return math.sqrt(dx ** 2 + dy ** 2)
 
     def draw(self):
-        self.game.console.put_map_char(self.avatar, self.x, self.y,
+        self.game.console.map.put_char(self.avatar, self.x, self.y,
                                        fg_color=self.color)
 
     def clear(self):
-        self.game.console.clear_map_char(self.x, self.y)
+        self.game.console.map.clear_char(self.x, self.y)
 
 
 class Combatant(Object):
