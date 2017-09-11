@@ -34,6 +34,7 @@ class Objects(list):
             return True
         return False
 
+
 class Object(object):
 
     def __init__(self, game,
