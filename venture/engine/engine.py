@@ -32,12 +32,15 @@ class VentureEngine:
 
     def run(self):
 
-        fov_recompute = True
-        while self._is_running():
+        self.game.console.details.add_message('Welcome to the Venture Society')
 
+        fov_recompute = True
+        turn = 0
+        while self._is_running():
+            turn += 1
             self._draw_all(fov_recompute)
             self.game.console.status.set_status('Hero: 100/100')
-            self.game.console.details.set_text('Welcome to the Venture Society')
+            self.game.console.details.add_message('Turn: %s' % turn)
             self.game.console.blit()
             self.game.console.flush()
 

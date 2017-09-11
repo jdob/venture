@@ -10,6 +10,8 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import textwrap
+
 from venture.lib import libtcodpy as cod
 
 
@@ -149,6 +151,8 @@ class Details(object):
         self.console = cod.console_new(self.config.details_width,
                                        self.config.details_height)
 
+        self.messages = []  # tuple of text, fg color
+
     def set_text(self, text):
         cod.console_clear(self.console)
         cod.console_set_default_foreground(
@@ -159,6 +163,24 @@ class Details(object):
                              1, 0,
                              cod.BKGND_NONE, cod.LEFT,
                              text)
+
+    def add_message(self, text, fg_color=cod.white):
+
+        # Update the full messages buffer
+        msg_lines = textwrap.wrap(text, self.config.details_width - 2)
+        for line in msg_lines:
+            if len(self.messages) == self.config.details_height - 1:
+                del self.messages[0]
+            self.messages.append( (line, fg_color) )
+
+        # Render the messages
+        cod.console_clear(self.console)
+        y = 0
+        for (line, fg_color) in self.messages:
+            cod.console_set_default_foreground(self.console, fg_color)
+            cod.console_print_ex(self.console, 1, y,
+                                 cod.BKGND_NONE, cod.LEFT, line)
+            y += 1
 
     def blit(self):
         # Place to the right of the status bar, with a small gap
