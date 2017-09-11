@@ -18,20 +18,20 @@ class VentureConfig:
         # General
         self.skin = DefaultSkin()
 
-        # Screen & Map
+        # Screen
         self.font_path = 'fonts/arial12x12.png'
         self.title = 'Venture Society'
-
         self.fps_limit = 20
 
-        self.screen_width = 80
-        self.screen_height = 60
-
+        # Consoles & Sizes
         self.map_width = 80
         self.map_height = 58
 
         self.status_width = 80
         self.status_height = 2
+
+        self.screen_width = self.map_width
+        self.screen_height = self.map_height + self.status_height
 
         self.fov_algorithm = 0
         self.fov_light_walls = True
