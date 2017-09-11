@@ -36,8 +36,10 @@ class VentureEngine:
         while self._is_running():
 
             self._draw_all(fov_recompute)
-            self.game.console.render_status_bar('[q] - quit')
+            self.game.console.render_status_bar('Hero: 100/100')
+            self.game.console.render_details('Welcome to the Venture Society')
             self.game.console.blit_status_bar()
+            self.game.console.blit_details()
             self.game.console.blit_map()
             self.game.console.flush()
 

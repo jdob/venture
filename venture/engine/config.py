@@ -25,10 +25,13 @@ class VentureConfig:
 
         # Consoles & Sizes
         self.map_width = 80
-        self.map_height = 58
+        self.map_height = 53
 
-        self.status_width = 80
-        self.status_height = 2
+        self.status_width = 20
+        self.status_height = 7
+
+        self.details_width = self.map_width - self.status_width - 2
+        self.details_height = 6
 
         self.screen_width = self.map_width
         self.screen_height = self.map_height + self.status_height
@@ -72,5 +75,7 @@ class DefaultSkin:
         self.ground_fg_light = (235, 235, 235)
 
         self.status_bar_fg = (179, 198, 255)
-        self.status_bar_bg = (25, 25, 25)
-        # self.status_bar_bg = (179, 198, 255)
+        self.status_bar_bg = (25, 25, 25)  # not currently used
+
+        self.details_fg = (235, 235, 235)
+        self.details_bg = (35, 35, 35)  # not currently used

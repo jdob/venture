@@ -21,6 +21,7 @@ class VentureConsole:
 
         self.map_console = None
         self.status_console = None
+        self.details_console = None
 
     def initialize(self):
 
@@ -39,6 +40,8 @@ class VentureConsole:
                                            self.config.map_height)
         self.status_console = cod.console_new(self.config.status_width,
                                               self.config.status_height)
+        self.details_console = cod.console_new(self.config.details_width,
+                                               self.config.details_height)
 
     def initialize_fov(self, f_map):
         self.fov_map = cod.map_new(self.config.map_width, self.config.map_height)
@@ -80,13 +83,15 @@ class VentureConsole:
         cod.console_clear(self.status_console)
 
         # Set the rendering colors for the status bar
-        cod.console_set_default_foreground(self.status_console,
-                                           self.color(*self.config.skin.status_bar_fg))
-        cod.console_set_default_background(self.status_console,
-                                           self.color(*self.config.skin.status_bar_bg))
+        cod.console_set_default_foreground(
+            self.status_console,
+            self.color(*self.config.skin.status_bar_fg))
+        # cod.console_set_default_background(
+        #     self.status_console,
+        #     self.color(*self.config.skin.status_bar_bg))
 
-        # Not 100% sure what this does, but it was in the tutorial. Add this
-        # back if it turns out things are acting weird.
+        # The following code will eventually be used for a graphical HP bar
+        # to render the background (total health).
         # cod.console_rect(self.status_console, 0, 0, self.config.status_width,
         #                  self.config.status_height, False, cod.BKGND_SCREEN)
 
@@ -96,17 +101,37 @@ class VentureConsole:
         #                      self.config.status_width / 2, 0,
         #                      cod.BKGND_NONE, cod.CENTER,
         #                      text)
-
         cod.console_print_ex(self.status_console,
-                             0, 0,
+                             1, 0,
                              cod.BKGND_NONE, cod.LEFT,
                              text)
 
     def blit_status_bar(self):
+        bar_y = self.config.screen_height - self.config.status_height
         cod.console_blit(self.status_console, 0, 0,
                          self.config.status_width,
-                         self.config.status_height, 0, 0,
-                         self.config.screen_height - self.config.status_height)
+                         self.config.status_height, 0,
+                         0, bar_y)
+
+    def render_details(self, text):
+        cod.console_clear(self.details_console)
+        cod.console_set_default_foreground(
+            self.details_console,
+            self.color(*self.config.skin.details_fg)
+        )
+        cod.console_print_ex(self.details_console,
+                             1, 0,
+                             cod.BKGND_NONE, cod.LEFT,
+                             text)
+
+    def blit_details(self):
+        # Place to the right of the status bar, with a small gap
+        details_x = self.config.status_width + 2
+        details_y = self.config.screen_height - self.config.status_height
+        cod.console_blit(self.details_console, 0, 0,
+                         self.config.details_width,
+                         self.config.details_height, 0,
+                         details_x, details_y)
 
     @staticmethod
     def color(r, g, b):
